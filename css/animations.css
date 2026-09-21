@@ -1,0 +1,33 @@
+@keyframes breath {
+  0%, 100% { opacity: .48; transform: translateX(-50%) translateY(0); }
+  50% { opacity: 1; transform: translateX(-50%) translateY(-5px); }
+}
+
+@keyframes petal-drift {
+  from { transform: translate3d(0, -5vh, 0) rotate(0deg); }
+  to { transform: translate3d(15vw, 116vh, 0) rotate(500deg); }
+}
+
+@keyframes wave {
+  from { transform: scaleY(.45); }
+  to { transform: scaleY(1.2); }
+}
+
+@keyframes heart-float {
+  0%, 100% { transform: translateY(0) rotate(-9deg); opacity: .55; }
+  50% { transform: translateY(-13px) rotate(4deg); opacity: 1; }
+}
+
+.scene.is-active .lily { animation: lily-sway 5.5s ease-in-out infinite alternate; }
+.scene.is-active .lily-two { animation-delay: -1.5s; }.scene.is-active .lily-three { animation-delay: -3.2s; }.scene.is-active .lily-four { animation-delay: -2.4s; }.scene.is-active .lily-five { animation-delay: -.8s; }
+
+@keyframes lily-sway {
+  from { margin-top: 0; }
+  to { margin-top: 12px; }
+}
+
+.scene.is-active .final-copy { animation: final-reveal 1.2s .25s both cubic-bezier(.2,.8,.25,1); }
+@keyframes final-reveal {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}

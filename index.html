@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#080914" />
+  <title>A little world for you</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Great+Vibes&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+<body>
+  <div class="ambient-noise" aria-hidden="true"></div>
+  <div class="ambient-stars" aria-hidden="true"></div>
+
+  <button class="music-toggle" id="musicToggle" type="button" aria-label="Play background music" aria-pressed="false">
+    <span aria-hidden="true">♪</span>
+  </button>
+  <div class="scene-count" aria-hidden="true"><span id="sceneNumber">01</span> / <span id="sceneTotal">11</span></div>
+
+  <main id="story" aria-live="polite">
+    <!-- SCENE 1: the heart is the only primary way into the story. -->
+    <section class="scene scene-hero is-active" data-scene="hero" aria-hidden="false">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <button class="heart-trigger" id="heartTrigger" type="button" aria-label="Pause or play the heart animation">
+        <canvas id="heartCanvas" width="500" height="500" aria-hidden="true"></canvas>
+      </button>
+      <p class="microcopy hero-prompt">I LOVE YOU</p>
+      <p class="hero-signature">for the girl who makes ordinary days feel like a little more</p>
+      <p class="heart-hint" id="heartHint">drag to turn · click to pause</p>
+      <button class="quiet-continue hero-continue" data-next type="button">Continue <span>♡</span></button>
+    </section>
+
+    <!-- SCENE 2: cinematic intro video -->
+    <section class="scene scene-video" data-scene="intro" aria-hidden="true">
+      <video id="introVideo" class="cinema-video" playsinline preload="metadata" muted></video>
+      <div class="video-shade" aria-hidden="true"></div>
+      <div class="scene-corner-copy">
+        <span>for you</span>
+        <p>from the very beginning</p>
+      </div>
+      <button class="quiet-continue is-hidden" data-next type="button">continue <span>→</span></button>
+    </section>
+
+    <!-- SCENE 3: a coded secret-garden scene inspired by the reference, not the MP4. -->
+    <section class="scene scene-password" data-scene="password" aria-hidden="true">
+      <div class="password-light" aria-hidden="true"></div>
+      <div class="secret-lilies" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <form class="secret-form" id="passwordForm" novalidate>
+        <p class="eyebrow">a little secret garden</p>
+        <h1>There’s something<br /><em>only you know.</em></h1>
+        <label class="sr-only" for="passwordInput">Our password</label>
+        <div class="secret-input-wrap">
+          <input id="passwordInput" type="password" inputmode="text" autocomplete="off" placeholder="the password" required />
+          <button type="submit" aria-label="Unlock the secret">↗</button>
+        </div>
+        <p class="form-message" id="passwordMessage">say the little word and I’ll let you in</p>
+      </form>
+    </section>
+
+    <!-- SCENE 3: CSS lilies mean this scene works without stock images. -->
+    <section class="scene scene-lilies" data-scene="lilies" aria-hidden="true">
+      <div class="moon-haze" aria-hidden="true"></div>
+      <div class="lily-field" aria-hidden="true">
+        <div class="lily lily-one"><i></i><i></i><i></i><i></i><i></i><b></b></div>
+        <div class="lily lily-two"><i></i><i></i><i></i><i></i><i></i><b></b></div>
+        <div class="lily lily-three"><i></i><i></i><i></i><i></i><i></i><b></b></div>
+        <div class="lily lily-four"><i></i><i></i><i></i><i></i><i></i><b></b></div>
+        <div class="lily lily-five"><i></i><i></i><i></i><i></i><i></i><b></b></div>
+      </div>
+      <div class="petal-stream" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <div class="lily-copy">
+        <p class="eyebrow">for you, always</p>
+        <h1>May your year bloom<br />in every gentle way.</h1>
+        <p>white lilies under a midnight sky — because beautiful things should be allowed to take their time.</p>
+      </div>
+      <button class="quiet-continue" data-next type="button">follow the memories <span>→</span></button>
+    </section>
+
+    <!-- SCENE 4: Photo source paths live in js/config.js. -->
+    <section class="scene scene-memories" data-scene="memories" aria-hidden="true">
+      <p class="eyebrow memory-eyebrow">our little archive</p>
+      <div class="memory-stage" id="memoryStage" aria-live="polite"></div>
+      <div class="memory-caption"><span id="memoryIndex">01</span><p id="memoryCaption">A memory waiting for us.</p></div>
+      <button class="side-control memory-prev" id="memoryPrev" type="button" aria-label="Show previous photo"><span>←</span> previous</button>
+      <button class="memory-next" id="memoryNext" type="button" aria-label="Show next memory">next photo <span>→</span></button>
+    </section>
+
+    <!-- SCENE 5: the letter copy comes from js/config.js. -->
+    <section class="scene scene-letter" data-scene="letter" aria-hidden="true">
+      <div class="letter-constellation" aria-hidden="true"></div>
+      <button class="envelope" id="envelope" type="button" aria-expanded="false" aria-label="Open the love letter">
+        <span class="envelope-back"></span><span class="envelope-letter"><span id="letterPreview">For my favourite person,</span></span><span class="envelope-flap"></span><span class="envelope-seal">♡</span>
+      </button>
+      <p class="microcopy envelope-prompt" id="envelopePrompt">a letter, folded with love</p>
+      <article class="love-letter" id="loveLetter" aria-hidden="true">
+        <p class="letter-date" id="letterDate"></p>
+        <div class="letter-text" id="letterText"></div>
+        <p class="letter-signoff" id="letterSignoff"></p>
+        <button class="quiet-continue letter-next" data-next type="button">keep this with you <span>→</span></button>
+      </article>
+    </section>
+
+    <!-- SCENE 6: custom controls for assets/audio/voice-note.mp3. -->
+    <section class="scene scene-voice" data-scene="voice" aria-hidden="true">
+      <div class="voice-orb" aria-hidden="true"></div>
+      <div class="voice-card">
+        <p class="eyebrow">from me, to you</p>
+        <h1>A little something<br />I wanted you to <em>hear.</em></h1>
+        <button class="voice-play" id="voicePlay" type="button" aria-label="Play voice note" aria-pressed="false"><span>▶</span></button>
+        <div class="waveform" id="waveform" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="voice-time"><span id="voiceElapsed">0:00</span><span id="voiceDuration">0:00</span></div>
+        <p class="asset-note" id="voiceStatus">your voice note will live here</p>
+      </div>
+      <button class="quiet-continue" data-next type="button">one more thing <span>→</span></button>
+    </section>
+
+    <!-- SCENES 7–9: edit videos are set once in js/config.js. -->
+    <section class="scene scene-edit scene-edit-one" data-scene="edit-1" aria-hidden="true">
+      <video class="cinema-video edit-video" data-edit="0" playsinline preload="metadata"></video>
+      <div class="video-shade"></div><div class="edit-label"><span>01</span><p>the way I see us</p></div>
+      <div class="video-tools" aria-label="Video controls">
+        <button type="button" data-video-play aria-label="Pause video">pause</button>
+        <button type="button" data-video-mute aria-label="Unmute video">mute</button>
+        <a data-video-download download aria-label="Download video">download</a>
+      </div>
+      <button class="side-control video-prev" data-edit-prev type="button" aria-label="Previous video"><span>←</span> previous</button>
+      <button class="side-control video-next" data-edit-next type="button" aria-label="Next video">next <span>→</span></button>
+    </section>
+    <section class="scene scene-edit scene-edit-two" data-scene="edit-2" aria-hidden="true">
+      <video class="cinema-video edit-video" data-edit="1" playsinline preload="metadata"></video>
+      <div class="video-shade"></div><div class="edit-label"><span>02</span><p>our kind of magic</p></div>
+      <div class="video-tools" aria-label="Video controls">
+        <button type="button" data-video-play aria-label="Pause video">pause</button>
+        <button type="button" data-video-mute aria-label="Unmute video">mute</button>
+        <a data-video-download download aria-label="Download video">download</a>
+      </div>
+      <button class="side-control video-prev" data-edit-prev type="button" aria-label="Previous video"><span>←</span> previous</button>
+      <button class="side-control video-next" data-edit-next type="button" aria-label="Next video">next <span>→</span></button>
+    </section>
+    <section class="scene scene-edit scene-edit-three" data-scene="edit-3" aria-hidden="true">
+      <video class="cinema-video edit-video" data-edit="2" playsinline preload="metadata"></video>
+      <div class="video-shade"></div><div class="edit-label"><span>03</span><p>and all the days ahead</p></div>
+      <div class="video-tools" aria-label="Video controls">
+        <button type="button" data-video-play aria-label="Pause video">pause</button>
+        <button type="button" data-video-mute aria-label="Unmute video">mute</button>
+        <a data-video-download download aria-label="Download video">download</a>
+      </div>
+      <button class="side-control video-prev" data-edit-prev type="button" aria-label="Previous video"><span>←</span> previous</button>
+      <button class="side-control video-next" data-edit-next type="button" aria-label="Go to final note">final <span>→</span></button>
+    </section>
+
+    <!-- SCENE 10: final birthday message is set in js/config.js. -->
+    <section class="scene scene-final" data-scene="final" aria-hidden="true">
+      <div class="final-lilies" aria-hidden="true"><span>✦</span><span>✦</span><span>✦</span></div>
+      <div class="final-copy">
+        <p class="eyebrow">today, and every day</p>
+        <h1>Happy Birthday<span>♡</span></h1>
+        <div id="finalMessage"></div>
+        <p class="final-line">Made with love, just for you.</p>
+      </div>
+      <div class="final-heart" aria-hidden="true">♡</div>
+    </section>
+  </main>
+
+  <audio id="backgroundMusic" loop preload="none"></audio>
+  <audio id="voiceNote" preload="metadata"></audio>
+
+  <script src="js/config.js"></script>
+  <script src="js/scenes.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
